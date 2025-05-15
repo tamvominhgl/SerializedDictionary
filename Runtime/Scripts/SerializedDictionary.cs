@@ -34,7 +34,7 @@ namespace AYellowpaper.SerializedCollections
                 if (!ContainsKey(kvp.Key))
                     Add(kvp.Key, kvp.Value);
 #else
-                    Add(kvp.Key, kvp.Value);
+                Add(kvp.Key, kvp.Value);
 #endif
             }
 
@@ -51,6 +51,18 @@ namespace AYellowpaper.SerializedCollections
             if (UnityEditor.BuildPipeline.isBuildingPlayer)
                 LookupTable.RemoveDuplicates();
 #endif
+        }
+
+        public void CloneFrom(IDictionary<TKey, TValue> original)
+        {
+            Clear();
+            _serializedList.Clear();
+
+            foreach (var kvp in original)
+            {
+                var entry = new SerializedKeyValuePair<TKey, TValue>() { Key = original.Key, Value = original.Value };
+                _serializedList.Add(entry);
+            }
         }
     }
 }
