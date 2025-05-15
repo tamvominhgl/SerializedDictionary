@@ -98,7 +98,7 @@ namespace AYellowpaper.SerializedCollections.Editor
             var getDrawerMethod = attributeUtilityType.GetMethod("GetDrawerTypeForPropertyAndType", BindingFlags.Static | BindingFlags.NonPublic);
             if (getDrawerMethod == null)
                 return false;
-            return getDrawerMethod.Invoke(null, new object[] { property, type, property.propertyType == SerializedPropertyType.ManagedReference }) != null;
+            return getDrawerMethod.Invoke(null, new object[] { property, type }) != null;
         }
 
         public static bool HasDrawerForType(Type type)
