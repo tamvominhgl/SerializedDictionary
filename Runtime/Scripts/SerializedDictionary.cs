@@ -60,7 +60,7 @@ namespace AYellowpaper.SerializedCollections
 
             foreach (var kvp in original)
             {
-                var entry = new SerializedKeyValuePair<TKey, TValue>() { Key = original.Key, Value = original.Value };
+                var entry = new SerializedKeyValuePair<TKey, TValue>(original.Key, Value = original.Value);
                 _serializedList.Add(entry);
             }
         }
