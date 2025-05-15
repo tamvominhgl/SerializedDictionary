@@ -90,6 +90,17 @@ namespace AYellowpaper.SerializedCollections.Editor
             return settings.AlwaysShowSearch ? true : pages >= settings.PageCountForSearch;
         }
 
+        public static bool HasDrawerFor(SerializedProperty property, Type type)
+        {
+            Type attributeUtilityType = typeof(SerializedProperty).Assembly.GetType("UnityEditor.ScriptAttributeUtility");
+            if (attributeUtilityType == null)
+                return false;
+            var getDrawerMethod = attributeUtilityType.GetMethod("GetDrawerTypeForPropertyAndType", BindingFlags.Static | BindingFlags.NonPublic);
+            if (getDrawerMethod == null)
+                return false;
+            return getDrawerMethod.Invoke(null, new object[] { property, type, property.propertyType == SerializedPropertyType.ManagedReference }) != null;
+        }
+
         public static bool HasDrawerForType(Type type)
         {
             Type attributeUtilityType = typeof(SerializedProperty).Assembly.GetType("UnityEditor.ScriptAttributeUtility");
