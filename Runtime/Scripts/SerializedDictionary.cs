@@ -53,9 +53,8 @@ namespace AYellowpaper.SerializedCollections
 #endif
         }
 
-        public void CloneFrom(IDictionary<TKey, TValue> original)
+        public void Clone(IDictionary<TKey, TValue> original)
         {
-            Clear();
             _serializedList.Clear();
 
             foreach (var kvp in original)
@@ -63,6 +62,35 @@ namespace AYellowpaper.SerializedCollections
                 var entry = new SerializedKeyValuePair<TKey, TValue>(kvp.Key, kvp.Value);
                 _serializedList.Add(entry);
             }
+
+            OnAfterDeserialize();
+        }
+
+        public void AddSerialized(TKey key, TValue value)
+        {
+            if (_serializedList.Find(x => x.Key == key) != null)
+            {
+                throw new ArgumentException($"An element with the same key already exists in collection.");
+            }
+
+            var entry = new SerializedKeyValuePair<TKey, TValue>(key, value);
+            _serializedList.Add(entry);
+        }
+
+        public void RemoveSerialized(TKey key)
+        {
+            _serializedList.RemoveAll(x => x.Key == key);
+        }
+
+        public void SetSerialized(TKey key, TValue value)
+        {
+            var entry = _serializedList.Find(x => x.Key == key);
+            if (entry == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            entry.Value = value;
         }
     }
 }
