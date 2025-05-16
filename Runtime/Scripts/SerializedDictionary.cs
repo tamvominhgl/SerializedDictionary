@@ -68,6 +68,7 @@ namespace AYellowpaper.SerializedCollections
 
         public void AddSerialized(TKey key, TValue value)
         {
+#if UNITY_EDITOR
             if (_serializedList.Find(x => x.Key == key) != null)
             {
                 throw new ArgumentException($"An element with the same key already exists in collection.");
@@ -75,15 +76,19 @@ namespace AYellowpaper.SerializedCollections
 
             var entry = new SerializedKeyValuePair<TKey, TValue>(key, value);
             _serializedList.Add(entry);
+#endif
         }
 
         public void RemoveSerialized(TKey key)
         {
+#if UNITY_EDITOR
             _serializedList.RemoveAll(x => x.Key == key);
+#endif
         }
 
         public void SetSerialized(TKey key, TValue value)
         {
+#if UNITY_EDITOR
             var entry = _serializedList.Find(x => x.Key == key);
             if (entry == null)
             {
@@ -91,6 +96,7 @@ namespace AYellowpaper.SerializedCollections
             }
 
             entry.Value = value;
+#endif
         }
     }
 }
