@@ -1,5 +1,7 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AYellowpaper.SerializedCollections
@@ -69,7 +71,7 @@ namespace AYellowpaper.SerializedCollections
         public void AddSerialized(TKey key, TValue value)
         {
 #if UNITY_EDITOR
-            if (_serializedList.Find(x => x.Key == key) != null)
+            if (_serializedList.Find(x => x.Key.Equals(key)).Equals(default))
             {
                 throw new ArgumentException($"An element with the same key already exists in collection.");
             }
@@ -82,15 +84,15 @@ namespace AYellowpaper.SerializedCollections
         public void RemoveSerialized(TKey key)
         {
 #if UNITY_EDITOR
-            _serializedList.RemoveAll(x => x.Key == key);
+            _serializedList.RemoveAll(x => x.Key.Equals(key));
 #endif
         }
 
         public void SetSerialized(TKey key, TValue value)
         {
 #if UNITY_EDITOR
-            var entry = _serializedList.Find(x => x.Key == key);
-            if (entry == null)
+            var entry = _serializedList.Find(x => x.Key.Equals(key));
+            if (entry.Equals(default))
             {
                 throw new ArgumentNullException();
             }
