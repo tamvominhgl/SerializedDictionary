@@ -100,5 +100,12 @@ namespace AYellowpaper.SerializedCollections
             entry.Value = value;
 #endif
         }
+
+        public void ClearSerialized()
+        {
+#if UNITY_EDITOR
+            _serializedList.Clear();
+#endif
+        }
     }
 }
