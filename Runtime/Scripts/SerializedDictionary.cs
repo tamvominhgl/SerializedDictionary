@@ -43,7 +43,8 @@ namespace AYellowpaper.SerializedCollections
 #if UNITY_EDITOR
             LookupTable.RecalculateOccurences();
 #else
-            _serializedList.Clear();
+            // Do not clear as this method might be called multiple times for addressables and/or prefab variants
+            // _serializedList.Clear();
 #endif
         }
 
